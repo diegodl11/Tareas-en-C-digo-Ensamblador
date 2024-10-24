@@ -43,3 +43,7 @@ To execute these programs on an 8086 simulator or emulator, follow these steps:
 
 ## Conclusion
 These workshops have provided hands-on experience with 8086 assembly language programming. Through working with loops, conditionals, memory manipulation, and arithmetic operations, I have built a stronger foundation in low-level programming and computer architecture. This knowledge is invaluable in understanding how modern computing systems function at their core.
+
+If you wish to contribute to this project, feel free to fork the repository and submit a pull request with your improvements.
+
+This project is licensed under the MIT License. See the LICENSE file for more details.
