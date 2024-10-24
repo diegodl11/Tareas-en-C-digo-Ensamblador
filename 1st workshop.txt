@@ -1,0 +1,10 @@
+mov ax, 0Fh                   
+mov bx, 12o   
+ 
+mov cx, ax
+add cx, bx ; cx = ax + bx 
+    
+mov dx, ax    
+sub dx, bx ; dx = ax - bx
+
+mul dx     ; ax = ax * dx

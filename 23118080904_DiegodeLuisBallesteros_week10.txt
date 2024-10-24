@@ -1,0 +1,113 @@
+
+
+.model small  
+
+.data 
+
+
+array db 45, 23, 55 , 87, 56
+
+array_length equ 5  
+
+max_value db ?
+min_value db ? 
+
+
+.code
+
+main proc
+    
+    mov ax, @data
+    mov ds, ax 
+       
+   
+    mov si, offset array
+    
+    mov ax, 700h
+    mov ds, ax 
+    mov bx, 50h  
+    mov cx, 0 
+               
+               
+    ;we should copy the array in 700:0050
+copy:  
+    ;change to ds @data  
+    mov ax, @data
+    mov ds, ax
+    mov dx, [si] 
+    
+    ;change to ds 700h
+    mov ax, 700h
+    mov ds, ax 
+    
+    ;copy the value to 0700h:0050h
+    mov [bx], dx 
+    
+    ;increment the diferent values
+    inc si
+    inc cx  
+    inc bx
+    cmp cx, array_length
+    ;we finish if we have copied the whole values
+    jne copy 
+    
+    ;go back to the position @data 
+    mov si, offset array
+      
+    ;clean the registers
+    sub ax, ax 
+    sub bx, bx
+    mov cx, 0
+    mov dx, 0 
+    mov ax, 700h
+    mov ds, ax  
+    mov si, 50h
+    mov di, 50h
+   
+     
+    
+start:  
+    ;this place is to compare the values
+    sub ax, ax 
+    sub bx, bx
+    mov bl, byte ptr [di] ;value that is changing in the algorithm all the time
+    mov al, [si]     ;fix value which we use to compare
+    cmp al, bl ;if al is bigger than bl, then we change the position of al
+    ja next 
+    cmp cx, array_length-1
+    je increment
+    inc cx  
+    inc di
+    jmp start
+    
+    
+next:  
+    ;this place is to replace the values
+    mov al, [si]
+    mov [si], bl
+    mov [di], al
+    cmp cx, array_length-1
+    je increment
+    inc cx  
+    inc di
+    jmp start
+    
+    
+increment:
+    
+    ;this place is to go to the next value
+    cmp dx, 5  ;if we finish our job, we end (dx has the elements compared)  
+    je end
+    mov cx, 0 
+    mov di, 50h
+    inc dx 
+    inc si ;we increment to the next position that we need to compare   
+    jmp start
+    
+end:
+
+
+    
+
+main endp
+end main 

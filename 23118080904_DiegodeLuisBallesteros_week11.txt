@@ -1,0 +1,75 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+   
+
+.CODE
+MAIN PROC  
+    ;we store the correct position in the DS (in this case 0700h)
+    MOV AX, 700h    
+    MOV DS, AX         
+    ;First of all we need to move the position 102h to the register DI
+    ;Because we need to store the numbers between 0 and 10 in the memory locations
+    ;starting from 102 
+    MOV DI, 102h 
+    ;we put 0 in the cl register to make the loop
+    MOV CL, 0             
+STORE_NUMBERS:   
+
+    MOV [DI], CL    ;we store our values in the memory starting from 102h (0, 1, 2, 3...)
+    INC DI          ;next memory positionj 
+    INC CL          ;next number to store
+    CMP CL, 10      ;check if we finished storing the numbers
+    JNE STORE_NUMBERS
+    
+    ;now, we put 102 and 112 in the registers to follow the logic in the program
+    MOV SI, 102h           ; point the register SI with the 102h memory
+    MOV DI, 112h           ; Point DI to the 112 (the results)
+    
+    MOV CX, 10             ; Number of iterations
+    MOV AX, 0              ;clear AX
+LOOP_START: 
+    
+    MOV AL, BYTE PTR [SI]  ;point AX with the numbers starting from 102h
+    MOV [DI], 0            ;we move 0 to the positions starting from 112h
+    MOV DX, 4              ;counter for the loop count_ones
+    
+    JMP COUNT_ONES 
+    
+    
+    
+NEXT:   
+    
+     
+    INC SI               ; Move to the next number
+    INC DI                ; Move to the next position starting from 112h
+  
+    
+    LOOP LOOP_START       ; Loop for 10 numbers
+    JMP END               ;jump to the end if we finished 
+    
+; to count the number of 1s in Al
+COUNT_ONES:
+   
+    SHR AL, 1             ; Shift Al right by 1 bit, then the carry flag will be modified with the shifted number           
+    JC ONE                ;we jump if we find a number 1 (carry flag =1)
+    SUB DX, 1   ; Sub one to the dx register
+    CMP DX, 0   ;check if we finished the loop
+    JNE COUNT_ONES ;if we didn' finish, we jump to count the next 1
+    JMP NEXT; Loop until all numbers are counted
+;add the numbers of 1 finded  
+ONE:                                         
+    ADD [DI], 1 ; Add carry flag (0 or 1) to AL 
+    SUB DX, 1   ; Sub one to the counter of the loop 
+    CMP DX, 0   ;check if we finished the loop
+    JNE COUNT_ONES  ;if we didn' finish, we jump to count the next 1
+    JMP NEXT; Loop until all bits are counted
+END:       
+
+    MOV AH, 4CH           ; Exit program
+    INT 21H
+MAIN ENDP
+
+
+END MAIN

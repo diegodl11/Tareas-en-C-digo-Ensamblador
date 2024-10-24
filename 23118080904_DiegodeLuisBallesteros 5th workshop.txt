@@ -1,0 +1,94 @@
+.model small  
+
+.data 
+
+array db 45, 55, 23, 87, 56, 9, 22, 63, 11, 98
+
+array_length equ 10   
+
+max_value db ?
+min_value db ?
+
+
+.code
+
+main proc
+    
+    mov ax, @data
+    mov ds, ax
+               
+    ;initialize max_value and min_value with the first array element
+    
+    mov al, array
+    mov max_value, al
+    mov min_value, al
+    
+    ;initialize cx with the array length
+    mov cx, array_length
+    ;initialize the index starting on the second element                      
+    mov si, 1
+
+search:
+
+    mov al, array[si] ;we put the current element in al   
+    
+    ;compare the current value with the greatest value already finded
+    cmp al, max_value  
+    jg is_largest  ;we update max_value if it is the greatest
+    
+    ;compare the current value with the lowest value already finded
+    cmp al, min_value  
+    ;update min_value if it is the lowest
+    jl is_smallest
+
+is_largest:
+
+    ;we update the max_value
+    mov max_value, al 
+    ;we jump to "next" to increase the index or
+    ;to calculate the factorial if we finish 
+    jmp next
+ 
+is_smallest:
+
+    ;update the min_value
+    
+    mov min_value, al 
+    ;we jump to "next" to increase the index or
+    ;to calculate the factorial if we finish 
+    jmp next
+    
+next:
+
+    inc si  ;increase the index
+    loop search
+    
+    ;at this point, max_value and min_value contain the
+    ;largest and smallest value
+         
+    mov ax, 0
+    mov al, max_value ;move the max_value to al
+    
+    mov bl, min_value ;mov the min_value to bl 
+    
+ 
+    div bl    ;we divide both numbers
+    
+    
+    
+    mov cl, ah      ; Store the result of the division in CL (reminder in AH)
+    mov ax, 1       ; Initialize the factorial counter to 1
+    mov bx, 1       ; Initialize the factorial result to 1
+
+factorial_loop:
+    mul bx      ; Multiply the current result by the factorial counter
+    inc bx      ; Increment the factorial counter
+    cmp bx, cx  ; Compare the factorial counter with the result of the division
+    jle factorial_loop  ; Repeat the loop while the counter is less than or equal to the result of the division
+
+; At this point, the factorial result will be in AX
+    
+    
+main endp
+end main   
+    

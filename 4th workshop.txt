@@ -1,0 +1,39 @@
+
+mov si, 0 ;first fibonacci number
+mov bp, 1 ;second fibonacci number
+
+;si and bp are words
+
+start: 
+
+    mov ax, bp  ;we move the number we want to check if it is odd to ax
+    mov bx, 2   ;we divide between 2 to check if it is pair
+    div bx   ;we divide ax/al between bx
+    
+    cmp dx, 0   ;when the remainder is not zero,
+                ;that is, the number is odd, we jump to the sum
+		;si el resultado es una word (doble de byte) el resto se almacena en dx, si no, en ah
+    jne sum 
+      
+    
+    mov ax, bp   ;we calculate the next fibonacci number
+    add bp, si 
+    mov si, ax   ;we store the previous fibonacci number in si
+                    ;we store the current fibonacci in bp
+     
+    cmp si, 21    ;if the fibonacci number is 21, we finish  
+    
+    jne start      ;we continue if the fibonacci is still not 21
+    
+    sum:
+        add di, bp    ;we add the odd numbers to di register
+         
+        mov ax, bp    ;we calculate the next fibonacci number
+        add bp, si 
+        mov si, ax     ;we store the previous fibonacci number in si
+                    ;we store the current fibonacci in bp
+                  
+        cmp si, 21   ;if the fibonacci number is 21, we finish   
+          
+        jne start    ;we continue if the fibonacci is still not 21
+        ret   

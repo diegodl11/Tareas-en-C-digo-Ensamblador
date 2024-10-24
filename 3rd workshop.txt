@@ -1,0 +1,34 @@
+mov dx, 0
+
+mov cx, 50      ; Inicializa el contador en 50
+;la instruccion loop le decrease el registro cx directamente
+;utilizar el registro cx para los bucles por la instr loop
+
+start:
+  
+    mov ax, cx
+    mov bl, 2
+    div bl   ;se divide ax/al entre bl
+    ;se almacena el resto en ah
+    ;se almacena el resultado en ax
+    cmp ah, 0      
+    ;se ejecuta je si la comparación es verdadera   
+    je check_3 
+    loop start   ;loop se ejecuta si je no es exitoso
+    ret    ; algo importante
+    
+    check_3:
+        mov ax, cx
+        mov bl, 3
+        div bl
+        cmp ah, 0  
+        je suma   
+        loop start
+        ret
+        
+    suma:
+        add dx, cx
+        ;cuando cx es cero, la instruccion loop para
+        ;automáticamente el bucle 
+        loop start
+        ret
