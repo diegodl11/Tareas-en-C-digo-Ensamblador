@@ -1,4 +1,6 @@
 # 8086 Assembly Workshops
+![image](https://github.com/user-attachments/assets/94fd1284-d781-44b9-8a46-a738ac731432)
+
 
 ## Overview
 This series of workshops explores core programming concepts and techniques in 8086 assembly language. Throughout these exercises, I have developed a deeper understanding of low-level programming, memory manipulation, and algorithm design. The workshops focus on implementing basic and intermediate routines that enhance both logical thinking and knowledge of computer architecture.
